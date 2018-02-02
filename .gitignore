@@ -4,4 +4,4 @@ __pycache__
 dist/
 node_modules/
 *.swp
-npm-debug.lognpm-debug.log
+npm-debug.log
