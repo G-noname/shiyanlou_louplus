@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:0205@localhost/challenge7'
+
+app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:0205@localhost/shiyanlou'
 
 db = SQLAlchemy(app)
 
@@ -24,7 +25,7 @@ class File(db.Model):
         self.title = title
         self.created_time = created_time
         self.category = category
-        self.content = contend
+        self.content = content
 
 
 class Category(db.Model):
@@ -32,11 +33,11 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    files = db.relationship('File')
 
     def __init__(self, name):
         self.name = name
 
+'''
 def insert_dates():
     java = Category('Java')
     python = Category('Python')
@@ -45,16 +46,17 @@ def insert_dates():
     db.session.add(java)
     db.session.add(python)
     db.session.add(file1)
-
+    db.session.add(file2)
+    db.session.commit()
+'''
 
 @app.route('/')
 def index():
-    return render_template('index.html', title=title)
+    return render_template('index.html', files=File.query.all())
 
-@app.route('/files/<file_id>')
+@app.route('/files/<int:file_id>')
 def file(file_id):
-    if not file_item:
-        abort(404)
+    file_item = File.query.get_or_404(file_id)
     return render_template('file.html', file_item=file_item)
 
 @app.errorhandler(404)
