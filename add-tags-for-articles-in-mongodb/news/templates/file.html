@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>{{ file_item['title'] }}</h1>
+{% endblock %}
+
+{% block content %}
+	<p>{{ file_item['created_item'] }}</p>
+	<p>{{ file_item['content'] }}</p>
+{% endblock %}
